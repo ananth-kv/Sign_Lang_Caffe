@@ -4,17 +4,17 @@ Tech report of my work: [Report](https://drive.google.com/open?id=0B0XN6u3to2v8b
 
 Fine tune human pose estimation using sign language videos downloaded from Youtube.
 
-#Training Data
+### Training Data
 * Data: Frames from videos
 * Labels: Encoded vectors of subtitles of those videos
 
-#Fine tune on FLIC dataset.
+### Fine tune on FLIC dataset.
 * Data: Images
 * Labels: Joint Coordinates
 
 Detailed description is given in the report.
 
-Here is an example of my result:
+##### Here is an example of my result:
 * Col1: Ground Truth
 * Col2: Model weights downloaded from original authors of the paper given at the bottom
 * Col3: Model trained from scratch on FLIC
