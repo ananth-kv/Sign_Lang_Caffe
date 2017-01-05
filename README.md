@@ -12,10 +12,10 @@ Fine tune on FLIC dataset.
 Deatiled description is given in the report.
 
 Here is an example of my result:
-Col1: Ground Truth
-Col2: Model weights downloaded from original authors of the paper given at the bottom
-Col3: Model trained from scratch on FLIC
-Col4: Model with weights from training of sign-langugage videos.
+* Col1: Ground Truth
+* Col2: Model weights downloaded from original authors of the paper given at the bottom
+* Col3: Model trained from scratch on FLIC
+* Col4: Model with weights from training of sign-langugage videos.
 
 ![alt tag](sample2.png)
 
