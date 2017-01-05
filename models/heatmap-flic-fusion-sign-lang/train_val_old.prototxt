@@ -1,0 +1,559 @@
+name: "HeatmapFusionNet"
+
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "label"
+  include: { phase: TRAIN }
+  hdf5_data_param {
+    #source: "/hdd2/Ananth/code/caffe-heatmap/models/heatmap-flic-fusion-sign-lang/demo/demo_output.txt"
+    source: "/hdd2/Ananth/code/caffe-heatmap/models/heatmap-flic-fusion-sign-lang/caffe-utils/hdf5/HDF5data/train.txt"
+    batch_size: 1
+    #new_height: 256
+    #new_width: 256
+  }
+}
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "label"
+  include: { phase: TEST }
+  hdf5_data_param {
+   # source: "/hdd2/Ananth/code/caffe-heatmap/models/heatmap-flic-fusion-sign-lang/demo/demo_output.txt"
+    source: "/hdd2/Ananth/code/caffe-heatmap/models/heatmap-flic-fusion-sign-lang/caffe-utils/hdf5/HDF5data/train.txt"
+    batch_size: 1
+    #new_height: 256
+    #new_width: 256
+  }
+}
+
+#########################################################
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    stride: 1
+    pad: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+#########################################################
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    pad: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+#########################################################
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    pad: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3"
+  type: "ReLU"
+  bottom: "conv3"
+  top: "conv3"
+}
+#########################################################
+layer {
+  name: "conv4"
+  type: "Convolution"
+  bottom: "conv3"
+  top: "conv4"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 9
+    pad: 4
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu4"
+  type: "ReLU"
+  bottom: "conv4"
+  top: "conv4"
+}
+#########################################################
+layer {
+  name: "conv5"
+  type: "Convolution"
+  bottom: "conv4"
+  top: "conv5"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    kernel_size: 9
+    pad: 4
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu5"
+  type: "ReLU"
+  bottom: "conv5"
+  top: "conv5"
+}
+#########################################################
+layer {
+  name: "conv6"
+  type: "Convolution"
+  bottom: "conv5"
+  top: "conv6"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+#    pad: 2
+    kernel_size: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu6"
+  type: "ReLU"
+  bottom: "conv6"
+  top: "conv6"
+}
+#########################################################
+layer {
+  name: "conv7"
+  type: "Convolution"
+  bottom: "conv6"
+  top: "conv7"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu7"
+  type: "ReLU"
+  bottom: "conv7"
+  top: "conv7"
+}
+#########################################################
+layer {
+  name: "conv8"
+  type: "Convolution"
+  bottom: "conv7"
+  top: "conv8"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 7
+    kernel_size: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu8"
+  type: "ReLU"
+  bottom: "conv8"
+  top: "conv8"
+}
+
+
+
+#########################################################
+
+
+#layer {
+#  name: "loss_heatmap"
+#  type: "EuclideanLossHeatmap"
+#  bottom: "conv8"
+#  bottom: "label"
+#  bottom: "data"
+#  top: "loss_heatmap"
+#  visualise: false
+#  loss_weight: 1
+#}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########################################################
+layer {
+  name: "concat_fusion"
+  type: "Concat"
+  bottom: "conv3"
+  bottom: "conv7"
+  top: "concat_fusion"
+  concat_param {
+    concat_dim: 1
+  }
+}
+
+
+
+#########################################################
+layer {
+  name: "conv1_fusion"
+  type: "Convolution"
+  bottom: "concat_fusion"
+  top: "conv1_fusion"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    kernel_size: 7
+    stride: 1
+    pad: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu1_fusion"
+  type: "ReLU"
+  bottom: "conv1_fusion"
+  top: "conv1_fusion"
+}
+
+#########################################################
+layer {
+  name: "conv2_fusion"
+  type: "Convolution"
+  bottom: "conv1_fusion"
+  top: "conv2_fusion"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    kernel_size: 13
+    stride: 1
+    pad: 6
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu2_fusion"
+  type: "ReLU"
+  bottom: "conv2_fusion"
+  top: "conv2_fusion"
+}
+
+#########################################################
+layer {
+  name: "conv3_fusion"
+  type: "Convolution"
+  bottom: "conv2_fusion"
+  top: "conv3_fusion"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 13
+    stride: 1
+    pad: 6
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu3_fusion"
+  type: "ReLU"
+  bottom: "conv3_fusion"
+  top: "conv3_fusion"
+}
+
+#########################################################
+layer {
+  name: "fc1"
+  type: "InnerProduct"
+  bottom: "conv3_fusion"
+  top: "fc1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param{
+    num_output: 1000
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu_fc1"
+  type: "ReLU"
+  bottom: "fc1"
+  top: "fc1"
+}
+
+#########################################################
+layer {
+  name: "fc2"
+  type: "InnerProduct"
+  bottom: "fc1"
+  top: "fc2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 20
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2400
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.1
+    }
+  }
+}
+
+#########################################################
+layer {
+  name: "loss"
+  type: "EuclideanLoss"
+  bottom: "fc2"
+  bottom: "label"
+  top: "loss"
+  #loss_weight: 3
+}
+
+
+#########################################################
+#layer {
+# type: 'Python'
+# name: 'loss'
+# top: 'loss'
+# bottom: 'fc2'
+# bottom: 'label'
+# python_param {
+   #the module name -- usually the filename -- that needs to be in $PYTHONPATH
+   #module: 'pyloss'
+   #the layer name -- the class name in the module
+#   layer: 'EuclideanLossLayer'
+#  }
+  # set loss weight so Caffe knows this is a loss layer.
+  # since PythonLayer inherits directly from Layer, this isn't automatically
+  # known to Caffe
+#  loss_weight: 1
+#}
+
+
