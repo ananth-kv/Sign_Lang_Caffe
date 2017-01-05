@@ -18,7 +18,7 @@ Detailed description is given in the report.
 * Col1: Ground Truth
 * Col2: Model weights downloaded from original authors of the paper given at the bottom
 * Col3: Model trained from scratch on FLIC
-* Col4: Model with weights from training of sign-langugage videos.
+* Col4: Model fine-tuned with weights from training of sign-langugage videos.
 
 
 
