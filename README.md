@@ -1,4 +1,4 @@
-# Fine Tune Pose Estimation using CNN
+# Fine Tune Human Pose Estimation using CNN
 
 Tech report of my work: [Report](https://drive.google.com/open?id=0B0XN6u3to2v8bnhiZlc0bVpod2M)
 
